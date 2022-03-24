@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include django_unused_context/static *
+recursive-include django_unused_context/templates *
