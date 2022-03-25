@@ -1,8 +1,8 @@
 Django Unused Context
 ============================
 
-Django App providing a mechanism for triggering warnings about variables sent to
-a template context that are not used in the template.
+Django App providing a mechanism for triggering warnings about context keys for
+a template that are not used.
 
 
 ## Installation
@@ -45,18 +45,18 @@ MIDDLEWARE = [
 TODO: Fill out.
 
 ## Configuration
-The package has a few configuration options available to you. Each of the following options can be set by adding the associated option and value into your settings file for Django.
+The package has one configuration option available to you. The following option can be set by adding the associated option and value into your settings file for Django.
 
 ### DJANGO_UNUSED_CONTEXT_IGNORE
 Default: ```[]``` (Empty List)<br>
-The tool comes with some default variables that are passed to every single template regardless and thus are ignored as often times they will never be used.
-Predefined variables to ignore include:
+The tool comes with some default keys that are included in every single template regardless and thus are ignored as often times they will never be used.
+Predefined keys to ignore include:
 * 'None'
 * 'False'
 * 'True'
 
-If you would like to add additional variables to ignore that are specific to your project, you can do that here.
-Be sure to list each variable in the list as a string of the variable to ignore.
+If you would like to add additional keys to ignore that are specific to your project, you can do that here.
+Be sure to list each key in the list as a string.
 ```python
 DJANGO_UNUSED_CONTEXT_IGNORE = [
     'paginator'
