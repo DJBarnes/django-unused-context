@@ -66,3 +66,18 @@ class DumpDieViewSimpleTestCase(TestCase):
             self.client.get("/no_context")
 
             self.assertEqual(len(test_warnings), 0)
+
+    @override_settings(DEBUG=False, DJANGO_UNUSED_CONTEXT_ALWAYS=True)
+    def test_using_no_context_vars_raises_warnings_about_unused_context_when_debug_is_false_but_alway_is_true(self):
+        """Test that using no context vars does raise warnings"""
+        warning_message = "Request Context <WSGIRequest: GET '/no_context'> had unused keys:"
+        warning_name = 'name'
+        warning_number = 'number'
+
+        with warnings.catch_warnings(record=True) as test_warnings:
+            self.client.get("/no_context")
+
+            self.assertEqual(len(test_warnings), 1)
+            self.assertIn(warning_message, str(test_warnings[-1].message))
+            self.assertIn(warning_name, str(test_warnings[-1].message))
+            self.assertIn(warning_number, str(test_warnings[-1].message))

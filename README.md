@@ -1,14 +1,14 @@
 Django Unused Context
-============================
+=====================
 
-Django App providing a mechanism for triggering warnings about context keys for
-a template that are not used.
+Django App providing a mechanism for triggering warnings about template context
+keys that do not get used while rendering the template.
 
 
 ## Installation
 Import the package via either:
 ```shell
-python -m pip install -e "git+https://github.com/DJBarnes/django-unused-context#egg=django-unused-context"
+python -m pip install -e git+https://github.com/DJBarnes/django-unused-context@master
 ```
 or
 ```shell
@@ -17,7 +17,7 @@ pipenv install -e "git+https://github.com/DJBarnes/django-unused-context#egg=dja
 
 <br>
 
-Next add the corresponding app to your Django `settings.py` file:
+Add the corresponding app to your Django `settings.py` file:
 ```python
 INSTALLED_APPS = [
     ...
@@ -30,7 +30,7 @@ INSTALLED_APPS = [
 
 <br>
 
-Lastly add the corresponding middleware to your Django `settings.py` file:
+Next add the corresponding middleware to your Django `settings.py` file:
 ```python
 MIDDLEWARE = [
     ...
@@ -41,24 +41,77 @@ MIDDLEWARE = [
 ]
 ```
 
+<br>
+
+Lastly, ensure that `DEBUG` is set to `True` in your Django settings file or
+you are using the Always option defined in the [Configuration](#configuration)
+section.
+```python
+DEBUG = True
+```
+
 ## Usage
-TODO: Fill out.
+Usage is automatic once the middleware is added. On each response that renders
+a template, any variables that were added to the template's context and then
+not used in the template rendering will be added to an internal set that will
+be both logged out and raise warnings. This is useful for knowing that all
+variables being sent to a template are being used.
 
 ## Configuration
-The package has one configuration option available to you. The following option can be set by adding the associated option and value into your settings file for Django.
+The package has a couple of configuration options available to you.
+The options can be set by adding the associated option and its value into
+your settings file for Django.
+
+### DJANGO_UNUSED_CONTEXT_ALWAYS
+Default: ```False```<br>
+The tool will only show warnings and log out messages when the project's
+settings has `DEBUG = True`. If you would like to have unused context variables
+logged out and raise warnings regardless of whether `DEBUG = True`, set this
+setting to `True`.
+
+This is useful for having tests output any unused context variables.
+Since tests are normally run with `DEBUG` set to `False`, you will never see
+output from this tool when running tests. If you would like to see this output
+when running tests as well you can, set this setting to `True`.
+
+**NOTE:** It is strongly Encouraged that you do NOT turn this setting on for a
+project that is in production as it will slow down the site and do unnecessary
+logging.
+
+```python
+DJANGO_UNUSED_CONTEXT_ALWAYS = True
+```
 
 ### DJANGO_UNUSED_CONTEXT_IGNORE
 Default: ```[]``` (Empty List)<br>
-The tool comes with some default keys that are included in every single template regardless and thus are ignored as often times they will never be used.
-Predefined keys to ignore include:
-* 'None'
-* 'False'
-* 'True'
+The tool comes with some default keys that are automatically ignored regardless
+of whether they are used or not in a template. Many of these are provided by
+Django automatically and thus often times may not be used in a template.
+Rather than constantly seeing these, it seemed more reasonable to ignore them.
 
-If you would like to add additional keys to ignore that are specific to your project, you can do that here.
+The predefined keys to ignore include:
+
+* 'block',                   # May not call block.super in template when overriding the base.
+* 'csrf_token',              # Provided to all templates.
+* 'DEFAULT_MESSAGE_LEVELS',  # Provided to all templates using messages framework.
+* 'False',                   # Provided to all templates.
+* 'is_paginated',            # Included by ListView and may not need pagination.
+* 'None',                    # Provided to all templates.
+* 'page_obj',                # Included by ListView and may not need pagination.
+* 'paginator',               # Included by ListView and may not need pagination.
+* 'perms',                   # Provided to login_required templates.
+* 'root_urlconf',            # Provided to exception pages for 404.
+* 'settings',                # Likely to be provided to templates and not used.
+* 'site',                    # Provided to the login page and may not be used.
+* 'site_name',               # Provided to the login page and may not be used.
+* 'True',                    # Provided to all templates.
+* 'view',                    # Provided to built-in password reset page.
+
+If you would like to add additional keys to ignore that are specific to your
+project, you can do that here.
 Be sure to list each key in the list as a string.
 ```python
 DJANGO_UNUSED_CONTEXT_IGNORE = [
-    'paginator'
+    'errors'
 ]
 ```

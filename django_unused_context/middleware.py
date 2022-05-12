@@ -17,7 +17,7 @@ logger = logging.getLogger('django_unused_context')
 django_unused_context_ignore = getattr(settings, 'DJANGO_UNUSED_CONTEXT_IGNORE', [])
 # Define default keys to ignore plus user defined ones.
 UNUSED_IGNORE = [
-    'block',                   # May not call block.super in template when overridding the base.
+    'block',                   # May not call block.super in template when overriding the base.
     'csrf_token',              # Provided to all templates.
     'DEFAULT_MESSAGE_LEVELS',  # Provided to all templates using messages framework.
     'False',                   # Provided to all templates.
@@ -133,10 +133,16 @@ class UnusedContextMiddleware:
         """
         Return standard response using warn_unused_context
         """
-        if settings.DEBUG:
+        # Get whether unused context should always be used.
+        django_unused_context_always = getattr(settings, 'DJANGO_UNUSED_CONTEXT_ALWAYS', False)
+
+        # If in DEBUG or set to always use
+        if settings.DEBUG or django_unused_context_always:
+            # Get response while determining which context var were not used.
             with warn_unused_context(request):
                 response = self.get_response(request)
         else:
+            # Else, get normal response.
             response = self.get_response(request)
 
         return response
