@@ -52,45 +52,57 @@ def warn_unused_context(request):
     lock.acquire()
 
     # Save original functionality for restoration after monkeypatching.
+    __orig_setitem__ = Context.__setitem__
     __orig_getitem__ = Context.__getitem__
 
     # Create a set for both used keys and all keys. Init used to the ones to ignore.
     used_keys = set(UNUSED_IGNORE)
     all_keys = set()
 
-    def __getitem__(self, lookup_key):
-        # If all keys not set, set it and ignore exceptions.
-        if not all_keys:
-            # Initialize default dict for flattening all context vars on error.
-            flattened = {}
 
-            try:
-                # Try to flatten all context vars.
-                flattened = self.flatten()
-            except Exception as err:
-                # Exceptions here are usually caused because a template tag
-                # returned a Context() object instead of a plain dictionary.
-                logger.exception(f"Ignoring context error: {err}")
-                raise
-            # Create all_keys dictionary.
-            for key, value in flattened.items():
-                if value:
-                    # Add to all keys
-                    all_keys.add(key)
+    def __setitem__(self, *args, **kwargs):
+        """Set a variable via the original setitem while adding to the all keys set."""
+
+        # Run original setitem
+        __orig_setitem__(self, *args, **kwargs)
+
+        # Define dict to store flattened context
+        flattened = {}
+
+        try:
+            # Try to flatten all context vars.
+            flattened = self.flatten()
+        except Exception as err:
+            # Exceptions here are usually caused because a template tag
+            # returned a Context() object instead of a plain dictionary.
+            logger.exception("Ignoring context error: %s", err)
+            raise
+
+        # Create all_keys dictionary.
+        for key in flattened.keys():
+            # Add to all keys
+            all_keys.add(key)
+
+
+    def __getitem__(self, lookup_key):
+        """Get a variable's value from original getitem while tracking what was used."""
 
         # Add the key that was used to get a context item to the used_keys set.
         used_keys.add(lookup_key)
         # Return the default behavior by using the original getitem function.
         return __orig_getitem__(self, lookup_key)
 
+
     try:
         # Monkeypatch context to keep track of unused variables in context.
+        Context.__setitem__ = __setitem__
         Context.__getitem__ = __getitem__
 
         # Let caller get the response.
         yield
     finally:
         # Un-patch it.
+        Context.__setitem__ = __orig_setitem__
         Context.__getitem__ = __orig_getitem__
         # Un-patching complete so release the lock.
         lock.release()
@@ -121,6 +133,10 @@ class UnusedContextMiddleware:
         """
         Return standard response using warn_unused_context
         """
-        with warn_unused_context(request):
+        if settings.DEBUG:
+            with warn_unused_context(request):
+                response = self.get_response(request)
+        else:
             response = self.get_response(request)
-            return response
+
+        return response
