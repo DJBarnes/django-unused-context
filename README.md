@@ -91,21 +91,23 @@ Rather than constantly seeing these, it seemed more reasonable to ignore them.
 
 The predefined keys to ignore include:
 
-* 'block',                   # May not call block.super in template when overriding the base.
-* 'csrf_token',              # Provided to all templates.
-* 'DEFAULT_MESSAGE_LEVELS',  # Provided to all templates using messages framework.
-* 'False',                   # Provided to all templates.
-* 'is_paginated',            # Included by ListView and may not need pagination.
-* 'None',                    # Provided to all templates.
-* 'page_obj',                # Included by ListView and may not need pagination.
-* 'paginator',               # Included by ListView and may not need pagination.
-* 'perms',                   # Provided to login_required templates.
-* 'root_urlconf',            # Provided to exception pages for 404.
-* 'settings',                # Likely to be provided to templates and not used.
-* 'site',                    # Provided to the login page and may not be used.
-* 'site_name',               # Provided to the login page and may not be used.
-* 'True',                    # Provided to all templates.
-* 'view',                    # Provided to built-in password reset page.
+```python
+'block',                  # block.super not called in overridden template.
+'csrf_token',             # Given to all templates.
+'DEFAULT_MESSAGE_LEVELS', # Given to all templates using messages framework.
+'False',                  # Given to all templates.
+'is_paginated',           # Included by ListView and may not need pagination.
+'None',                   # Given to all templates.
+'page_obj',               # Included by ListView and may not need pagination.
+'paginator',              # Included by ListView and may not need pagination.
+'perms',                  # Given to login_required templates.
+'root_urlconf',           # Given to exception pages for 404.
+'settings',               # Likely to be given to templates and not used.
+'site',                   # Given to the login page and may not be used.
+'site_name',              # Given to the login page and may not be used.
+'True',                   # Given to all templates.
+'view',                   # Given to built-in password reset page.
+```
 
 If you would like to add additional keys to ignore that are specific to your
 project, you can do that here.
