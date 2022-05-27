@@ -4,6 +4,8 @@ Django Unused Context
 Django App providing a mechanism for triggering warnings about template context
 keys that do not get used while rendering the template.
 
+Full documentation on [read the docs](https://django-unused-context.readthedocs.io/en/latest/index.html).
+
 
 ## Installation
 Import the package via either:
