@@ -1,5 +1,5 @@
 Configuration
-=============
+*************
 
 The package has a couple of configuration options available to you.
 The options can be set by adding the associated option and its value into
@@ -7,7 +7,7 @@ your settings file for Django.
 
 
 DJANGO_UNUSED_CONTEXT_ALWAYS
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+============================
 
 The tool will only show warnings and log out messages when the project's
 settings has ``DEBUG = True``. If you would like to have unused context
@@ -19,7 +19,7 @@ Since tests are normally run with ``DEBUG`` set to ``False``, you will never
 see output from this tool when running tests. If you would like to see this
 output when running tests as well you can, set this setting to ``True``.
 
-.. note::
+.. warning::
 
     It is strongly Encouraged that you do **NOT** turn this setting on for a
     project that is in production as it will slow down the site and do
@@ -34,7 +34,7 @@ output when running tests as well you can, set this setting to ``True``.
 
 
 DJANGO_UNUSED_CONTEXT_IGNORE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+============================
 
 The tool comes with some default keys that are automatically ignored regardless
 of whether they are used or not in a template. Many of these are provided by
@@ -49,6 +49,7 @@ The predefined keys to ignore include:
     'csrf_token',             # Given to all templates.
     'DEFAULT_MESSAGE_LEVELS', # Given to all templates using messages framework.
     'False',                  # Given to all templates.
+    'forloop',                # Given to templates with a for loop.
     'is_paginated',           # Included by ListView and may not need pagination.
     'None',                   # Given to all templates.
     'page_obj',               # Included by ListView and may not need pagination.

@@ -21,6 +21,7 @@ UNUSED_IGNORE = [
     'csrf_token',              # Provided to all templates.
     'DEFAULT_MESSAGE_LEVELS',  # Provided to all templates using messages framework.
     'False',                   # Provided to all templates.
+    'forloop',                 # Given to templates with a for loop.
     'is_paginated',            # Included by ListView and may not need pagination.
     'None',                    # Provided to all templates.
     'page_obj',                # Included by ListView and may not need pagination.

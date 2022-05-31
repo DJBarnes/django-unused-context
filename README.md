@@ -8,31 +8,14 @@ Full documentation on [read the docs](https://django-unused-context.readthedocs.
 
 
 ## Installation
-Import the package via either:
+1. Install the package:
 ```shell
-python -m pip install -e git+https://github.com/DJBarnes/django-unused-context@master
-```
-or
-```shell
-pipenv install -e "git+https://github.com/DJBarnes/django-unused-context#egg=django-unused-context"
+python -m pip install django-unused-context
 ```
 
 <br>
 
-Add the corresponding app to your Django `settings.py` file:
-```python
-INSTALLED_APPS = [
-    ...
-
-    'django_unused_context',
-
-    ...
-]
-```
-
-<br>
-
-Next add the corresponding middleware to your Django `settings.py` file:
+2. Add the middleware to your Django `settings.py` file:
 ```python
 MIDDLEWARE = [
     ...
@@ -45,9 +28,7 @@ MIDDLEWARE = [
 
 <br>
 
-Lastly, ensure that `DEBUG` is set to `True` in your Django settings file or
-you are using the Always option defined in the [Configuration](#configuration)
-section.
+3. Ensure that `DEBUG` is set to `True` in your Django settings file.
 ```python
 DEBUG = True
 ```
@@ -98,6 +79,7 @@ The predefined keys to ignore include:
 'csrf_token',             # Given to all templates.
 'DEFAULT_MESSAGE_LEVELS', # Given to all templates using messages framework.
 'False',                  # Given to all templates.
+'forloop',                # Given to templates with a for loop.
 'is_paginated',           # Included by ListView and may not need pagination.
 'None',                   # Given to all templates.
 'page_obj',               # Included by ListView and may not need pagination.
