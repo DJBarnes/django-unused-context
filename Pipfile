@@ -8,6 +8,7 @@ django = "*"
 
 [dev-packages]
 black = "*"
+build = "*"
 coverage = "*"
 doc8 = "*"
 esbonio = "*"
@@ -18,6 +19,7 @@ rstcheck = "*"
 sphinx = "*"
 sphinx-autobuild = "*"
 sphinx-rtd-theme = "*"
+twine = "*"
 
 [requires]
 python_version = "3.8"
