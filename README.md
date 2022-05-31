@@ -8,6 +8,7 @@ Full documentation on [read the docs](https://django-unused-context.readthedocs.
 
 
 ## Installation
+
 1. Install the package:
 ```shell
 python -m pip install django-unused-context
@@ -18,7 +19,7 @@ python -m pip install django-unused-context
 2. Add the middleware to your Django `settings.py` file:
 ```python
 MIDDLEWARE = [
-    ...
+
 
     'django_unused_context.middleware.UnusedContextMiddleware',
 
@@ -34,6 +35,7 @@ DEBUG = True
 ```
 
 ## Usage
+
 Usage is automatic once the middleware is added. On each response that renders
 a template, any variables that were added to the template's context and then
 not used in the template rendering will be added to an internal set that will

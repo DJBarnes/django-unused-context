@@ -1,13 +1,18 @@
 Quickstart
 **********
 
+Installation
+============
+
 1. Install the package:
+
     .. code-block:: bash
 
         python -m pip install django-unused-context
 
 
 2. Add the middleware to your Django ``settings.py`` file:
+
     .. code-block:: python
 
         MIDDLEWARE = [
@@ -26,6 +31,7 @@ Quickstart
 
 Usage
 =====
+
 Usage is automatic once the middleware is added. On each response that
 renders a template, any variables that were added to the template's context
 and then not used in the template rendering will be added to an internal set
