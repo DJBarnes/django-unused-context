@@ -4,8 +4,8 @@ build-backend = 'setuptools.build_meta:__legacy__'
 
 [project]
 name = "django-unused-context"
-version = "0.1.1"
-description = "A Django app to trigger warnings when context keys are not used."
+version = "0.1.2"
+description = "A Django middleware to trigger warnings when context keys are not used in a template."
 readme = "README.md"
 authors = [{ name = "David Barnes", email = "barnesdavidj@gmail.com" }]
 license = { file = "LICENSE" }
