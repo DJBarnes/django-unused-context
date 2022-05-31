@@ -7,7 +7,7 @@ name = "pypi"
 django = "*"
 
 [dev-packages]
-autopep8 = "*"
+black = "*"
 coverage = "*"
 doc8 = "*"
 esbonio = "*"
