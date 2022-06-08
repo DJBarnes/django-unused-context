@@ -1,0 +1,13 @@
+# System
+automodule
+forloop
+genindex
+htmldjango
+maxdepth
+modindex
+monkeypatching
+quickstart
+subpackages
+threadsafe
+toctree
+urlconf
